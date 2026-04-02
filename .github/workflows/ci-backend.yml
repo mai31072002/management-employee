@@ -9,9 +9,6 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: candidate-backend
 
     steps:
     - name: Checkout code
@@ -32,8 +29,12 @@ jobs:
     - name: Build with Gradle
       # Thêm lệnh cấp quyền chạy cho file gradlew trước khi thực thi
       run: |
-        chmod +x gradlew
-        ./gradlew build -x test
+        echo "Current path:"
+        pwd
+        echo "List files:"
+        ls -la
+        echo "List files in backend folder:"
+        ls -la candidate-backend || echo "Folder candidate-backend not found!"
 
     - name: Build Docker Image
       run: docker build -t ${{ secrets.DOCKER_USERNAME }}/employee-be:latest .
